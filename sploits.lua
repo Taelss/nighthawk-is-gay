@@ -3,6 +3,19 @@
 chat.AddText( Color( 255, 200, 255 ), ply, "[sploits] ", Color(255,100,50), "Loaded Sucessfully")
 surface.PlaySound ("UI/buttonclick.wav")
 
+// --- cool watermark ---
+
+hook.Add("PostDrawHUD", "", function()
+	surface.SetFont("DermaLarge");
+	surface.SetTextColor(65, 255, 65);
+	surface.SetTextPos(5, 5);
+	surface.DrawText("sploits - discord.gg/J3pxPVe");
+	
+end)
+
+
+
+
 // --- wallhack ---
 
 function ESP()
@@ -21,8 +34,8 @@ function ESP()
 
 		local targetScreenpos = targetPos:ToScreen()
 
-		surface.SetTextColor( 200, 25, 25, 255 )
-		surface.SetFont("Trebuchet18")
+		surface.SetTextColor( 100, 255, 100, 255 )
+		surface.SetFont("BudgetLabel")
 		surface.SetTextPos( tonumber( targetScreenpos.x ),tonumber(targetScreenpos.y))
 		surface.DrawText(name)
 
@@ -74,9 +87,44 @@ concommand.Add("sploits_dupe", function()
 end)
 
 
-// --- aimbot ---
+// --- chams ---
 
-	local traceRes = util.TraceLine( trace ) -- Player Trace part. 2
+local chamsmat = CreateMaterial("chamsmat", "VertexLitGeneric", {
+	["$ignorez"] = 0,
+	["$model"] = 1,
+	["$basetexture"] = "models/debug/debugwhite",
+});
+
+
+
+
+local chams = CreateClientConVar("sploits_chams", 1);
+
+hook.Add("RenderScreenspaceEffects", "", function()
+	if(!chams:GetBool()) then return; end
+	cam.Start3D();
+	render.MaterialOverride(chamsmat)
+	for k,v in next, player.GetAll() do
+		if(v:Health() < 1 || v:IsDormant()) then continue end
+		if(v:Team() == 1) then
+			render.SetColorModulation(1, 0, 0);
+		else
+			render.SetColorModulation(20 / 255, 100 / 255, 1)
+		end
+
+		v:DrawModel()
+
+		local wep = v:GetActiveWeapon()
+
+		if(wep && wep:IsValid()) then
+			render.SetColorModulation(1, 1, 1)
+			wep:DrawModel()
+		end
+	end
+	cam.End3D()
+end)
+
+
 
 
 
