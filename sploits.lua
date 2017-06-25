@@ -76,21 +76,7 @@ end)
 
 // --- aimbot ---
 
-function aimbot() -- Starting the function
-	local ply = LocalPlayer() -- Getting ourselves
-	local trace = util.GetPlayerTrace( ply ) -- Player Trace part. 1
 	local traceRes = util.TraceLine( trace ) -- Player Trace part. 2
-	if traceRes.HitNonWorld then -- If the aimbot aims at something that isn't the map..
-		local target = traceRes.Entity -- It's obviously an entity.
-		if target:IsPlayer() then -- But it must be a player.
-			local targethead = target:LookupBone("ValveBiped.Bip01_Head1") -- In this aimbot we only aim for the head.
-			local targetheadpos,targetheadang = target:GetBonePosition(targethead) -- Get the position/angle of the head.
-			ply:SetEyeAngles((targetheadpos - ply:GetShootPos()):Angle()) -- And finally, we snap our aim to the head of the target.
-		end
-	end
-end
-hook.Add("Think","aimbot",aimbot) -- The hook will spam "aimbot" until it finds a target..
-
 
 
 
