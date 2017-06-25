@@ -15,7 +15,7 @@ function ESP()
 
 		local name = tostring(target:Nick())
 
-		local targetPos = target:GetPos() + Vector(0,0,32)
+		local targetPos = target:GetPos() + Vector(0,0,62)
 
 		local targetDistance = math.floor((ply:GetPos():Distance( targetPos )) / 40)
 
@@ -24,7 +24,7 @@ function ESP()
 		surface.SetTextColor( 200, 25, 25, 255 )
 		surface.SetFont("Trebuchet18")
 		surface.SetTextPos( tonumber( targetScreenpos.x ),tonumber(targetScreenpos.y))
-		surface.DrawText("Name: ".. name)
+		surface.DrawText(name)
 
 end
 end
@@ -47,7 +47,7 @@ hook.Add("Think", "asd", function()
 			RunConsoleCommand(((LocalPlayer():IsOnGround() or LocalPlayer():WaterLevel() > 0) and "+" or "-").."jump")
 		end)
 
-        else RunConsoleCommand("-jump") hook.Remove("Think","hook") end
+        else RunConsoleCommand("-jump") hook.Remove("Think","bhop") end
 
 end)
 
@@ -74,7 +74,22 @@ concommand.Add("sploits_dupe", function()
 end)
 
 
+// --- aimbot ---
 
+function aimbot() -- Starting the function
+	local ply = LocalPlayer() -- Getting ourselves
+	local trace = util.GetPlayerTrace( ply ) -- Player Trace part. 1
+	local traceRes = util.TraceLine( trace ) -- Player Trace part. 2
+	if traceRes.HitNonWorld then -- If the aimbot aims at something that isn't the map..
+		local target = traceRes.Entity -- It's obviously an entity.
+		if target:IsPlayer() then -- But it must be a player.
+			local targethead = target:LookupBone("ValveBiped.Bip01_Head1") -- In this aimbot we only aim for the head.
+			local targetheadpos,targetheadang = target:GetBonePosition(targethead) -- Get the position/angle of the head.
+			ply:SetEyeAngles((targetheadpos - ply:GetShootPos()):Angle()) -- And finally, we snap our aim to the head of the target.
+		end
+	end
+end
+hook.Add("Think","aimbot",aimbot) -- The hook will spam "aimbot" until it finds a target..
 
 
 
