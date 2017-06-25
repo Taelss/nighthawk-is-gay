@@ -1,1 +1,35 @@
-print("dickhead")
+
+
+hook.Add("PlayerSay" , "say" , testing)
+
+
+chat.AddText( Color( 255, 200, 255 ), ply, "[Sploits] ", Color(255,100,50), "Loaded Sucessfully")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
