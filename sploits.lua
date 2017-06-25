@@ -40,22 +40,16 @@ hook.Add("HUDPaint", "ESP", ESP)
 
 CreateClientConVar("sploits_bhop", "1", true , false)
 
+hook.Add("Think", "asd", function()
 
-hook.Add("Think", "bhop", Bhop)
-
-
-function Bhop()
-
-bhop = 1
-
-	if GetConVarNumber( "sploits_bhop" ) == 0 then return end	
 	if (input.IsKeyDown( KEY_SPACE ) ) then
-        hook.Add("Think","hook",function()
+        hook.Add("Think","bhop",function()
 			RunConsoleCommand(((LocalPlayer():IsOnGround() or LocalPlayer():WaterLevel() > 0) and "+" or "-").."jump")
 		end)
-        end
-    end
 
+        else RunConsoleCommand("-jump") hook.Remove("Think","hook") end
+
+end)
 
 
 
